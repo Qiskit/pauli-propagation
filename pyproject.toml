@@ -1,0 +1,175 @@
+[build-system]
+requires = ["maturin>=1.0"]
+build-backend = "maturin"
+
+[project]
+name = "pauli-propagation"
+version = "0.0.0"
+readme = "README.md"
+description = "Library for performing Pauli propagation."
+license = {file = "LICENSE.txt"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+
+requires-python = ">=3.10"
+
+dependencies = [
+    "qiskit>=2.1.2, <3",
+    "numpy>=1.26",
+    "qiskit-ibm-runtime>=0.38",
+]
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+bindings = "pyo3-abi3-py310"
+features = []
+profile = "release"
+module-name = "pauli_propagation._accelerate"
+
+[project.optional-dependencies]
+dev = [
+    "pauli-propagation[test,nbtest,lint,docs]",
+    "tox>=4.4.3",
+]
+basetest = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+test = [
+    "pauli-propagation[basetest]",
+]
+nbtest = [
+    "pauli-propagation[basetest]",
+    "nbmake>=1.5.0",
+]
+style = [
+    "ruff==0.11.12",
+    "nbqa>=1.8.5",
+]
+lint = [
+    "pauli-propagation[style]",
+    "mypy==1.17.1",
+    "pylint==3.3.7",
+    "reno>=4.1",
+    "toml>=0.9.6",
+]
+notebook-dependencies = [
+    "pauli-propagation",
+]
+docs = [
+    "pauli-propagation[test,notebook-dependencies]",
+    "qiskit-sphinx-theme~=2.0.0",
+    "matplotlib",
+    "jupyter-sphinx",
+    "sphinx-design",
+    "sphinx-autodoc-typehints",
+    "sphinx-copybutton",
+    "sphinx_reredirects",
+    "nbsphinx>=0.9.4",
+    "reno>=4.1",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "pauli_propagation",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pylint]
+py-version = "3.10"
+load-plugins = ["pylint.extensions.no_self_use"]
+
+[tool.pylint."messages control"]
+disable = ["all"]
+enable = [
+    "reimported",
+    "no-else-raise",
+    "redefined-argument-from-local",
+    "redefined-builtin",
+    "raise-missing-from",
+    "cyclic-import",
+    "unused-argument",
+    "attribute-defined-outside-init",
+    "no-else-return",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["./pauli_propagation/", "./test/"]
+
+[tool.ruff]
+line-length = 100
+src = ["pauli_propagation", "test"]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "I",   # isort
+    "E",   # pycodestyle
+    "W",   # pycodestyle
+    "D",   # pydocstyle
+    "F",   # pyflakes
+    "RUF", # ruff
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+    "B",   # flake8-bugbear
+    "A",   # flake8-builtins
+]
+ignore = [
+    "E501", # line too long
+]
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
+[tool.ruff.lint.extend-per-file-ignores]
+"test/**.py" = [
+    "D",  # pydocstyle
+]
+"docs/**/*" = [
+    "E402", # module level import not at top of file
+    "D",    # pydocstyle
+]
+
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = """
+# This code is a Qiskit project.
+#
+# \\(C\\) Copyright IBM 2025\\.
+#
+# This code is licensed under the Apache License, Version 2\\.0\\. You may
+# obtain a copy of this license in the LICENSE\\.txt file in the root directory
+# of this source tree or at http\\:\\/\\/www\\.apache\\.org\\/licenses\\/LICENSE\\-2\\.0\\.
+#
+# Any modifications or derivative works of this code must retain this
+# copyright notice, and modified files need to carry a notice indicating
+# that they have been altered from the originals\\.
+"""
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
