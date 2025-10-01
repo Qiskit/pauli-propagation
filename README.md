@@ -91,8 +91,9 @@ the evolved operator is allowed to grow.
 ``propagate_through_rotation_gates``: As the Pauli operator, $\tilde{O}$, is propagated under the
 action of a sequence of $N$ Pauli rotation gates, it will grow as $\mathcal{O}(2^{N})$. To control
 the memory usage, the operator is truncated after application of each gate, which introduces some
-error proportional to the magnitudes of the truncated terms' coefficients. The runtime and memory
-requirements are generally linear in the size of the evolved operator and the number of gates.
+error proportional to the magnitudes of the truncated terms' coefficients. The memory requirements
+are generally linear in the size of the evolved operator and runtime scales linearly in both the
+operator size and the number of gates.
 
 ``propagate_through_operator``: To conjugate an operator in the Pauli basis by another such operator,
 ($G^{\dagger}OG$) one must generate a cubic number of terms, one term for each combination of Pauli
