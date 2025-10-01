@@ -86,9 +86,9 @@ Both the memory and time cost for Pauli propagation routines generally scale wit
 the evolved operator is allowed to grow.
 
 ``propagate_through_rotation_gates``: As the Pauli operator, $\tilde{O}$, is propagated under the
-action of a sequence of $N$ Pauli rotation gates, it will grow as $\mathcal{O}(2^{N})$. To control
-the memory usage, the operator is truncated after application of each gate, which introduces some
-error proportional to the magnitudes of the truncated terms' coefficients. The memory requirements
+action of a sequence of $N$ Pauli rotation gates, the number of terms will grow as $\mathcal{O}(2^{N})$.
+To control the memory usage, the operator is truncated after application of each gate, which introduces
+some error proportional to the magnitudes of the truncated terms' coefficients. The memory requirements
 are generally linear in the size of the evolved operator and runtime scales linearly in both the
 operator size and the number of gates.
 
