@@ -49,6 +49,7 @@ propagation routines. Namely:
 
 Some features and technical details of the package include:
 
+- Rust-accelerated Python interface
 - Ability to truncate terms from $\tilde{O}$ during evolution based on an absolute coefficient
     tolerance, a fixed number of terms in the evolving operator, or a combination of both.
 - Ability to perform Pauli propagation in both the Schrödinger and Heisenberg frames.
@@ -57,7 +58,7 @@ Some features and technical details of the package include:
     generates only the terms in the product with the largest coefficients.
 - The Rust acceleration module uses bit-packing to reduce the memory requirements and runtime of
     ``evolve_by_circuit``; however, a ``qiskit.quantum_info.SparsePauliOp`` is still instantiated to
-    describe the final $\tilde{O}. If instantiating this Qiskit object is prohibitive, we could
+    describe the final $\tilde{O}$. If instantiating this Qiskit object is prohibitive, we could
     provide the bit-packed data to the user directly. Please let us know if something like this
     would be useful in your workflows!
 
