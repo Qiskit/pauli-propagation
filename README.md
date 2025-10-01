@@ -97,7 +97,7 @@ operator size and the number of gates.
 
 ``propagate_through_operator``: To conjugate an operator in the Pauli basis by another such operator,
 ($G^{\dagger}OG$) one must generate a cubic number of terms, one term for each combination of Pauli
-terms in the product \prod_{i,j,k} P_i^{\dagger} O_j P_k. This implementation sorts the coefficients in
+terms in the product $\prod_{i,j,k} P_i^{\dagger} O_j P_k$. This implementation sorts the coefficients in
 $G^{\dagger}$, $O$, and $G$ in descending order and performs a search for the terms with the largest
 coefficients over the 3D index space, starting with the origin, $(0, 0, 0)$, which is guaranteed
 to result in the most significant contribution to the product. In our benchmarks, the runtime is
