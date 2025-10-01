@@ -30,22 +30,25 @@
 
 Pauli propagation, also known as sparse Pauli dynamics (SPD), is a framework for approximating the
 evolution of operators in the Pauli basis under the action of other operators, such as quantum
-circuit gates and noise channels [1] - [4]. This technique has most commonly been used to classically estimate
-expectation values of quantum systems, but it has also been used for reducing the depth of quantum
-circuits to be run on a quantum processor [5]. Check out the [tutorial](https://github.com/Qiskit/pauli-propagation/blob/main/docs/tutorials/do_something.ipynb) to learn how to use
-this package to classically simulate expectation values of quantum systems.
+circuit gates and noise channels [1] - [4]. This approach can be effective when the operators
+involved are expected to remain sparse in the Pauli basis. The technique has been used to classically
+estimate expectation values of quantum systems and also to reduce the depths of quantum circuits to
+be run on a quantum processor [5]. Check out the tutorial to learn how to use this package to simulate
+expectation values of quantum systems.
 
 This package provides a Rust-accelerated Python interface for performing the most common Pauli
 propagation routines. Namely:
 
-- ``propagate_through_rotation_gates``: Evolve a Pauli operator, $O$, through a sequence of Pauli rotation
-    gates, $P$, creating a transformed operator, $\tilde{O}$. This evolution can be done in either
-    the Heisenberg frame ($\tilde{O} = P^{\dagger}OP$) or the Schrödinger frame ($\tilde{O} = POP^{\dagger}$).
-- ``propagate_through_operator``: Evolve a Pauli operator, $O$, through a non-unitary Pauli-sum operator, $G$,
-    creating a transformed operator, $\tilde{O}$. This evolution can be done in either the
-    Heisenberg frame ($\tilde{O} = G^{\dagger}OG$) or the Schrödinger frame ($\tilde{O} = GOG^{\dagger}$).
-- ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into its Clifford and non-Clifford
-    parts, $C$ and $P$ respectively, such that $U = PC$.
+- ``propagate_through_rotation_gates``: Evolve an operator specified in the Pauli basis, $O$, through a
+sequence of Pauli rotation gates, $P$, creating a transformed operator, $\tilde{O}$. This evolution
+can be done in either the Heisenberg frame ($\tilde{O} = P^{\dagger}OP$) or the Schrödinger frame
+($\tilde{O} = POP^{\dagger}$).
+- ``propagate_through_operator``: Evolve an operator specified in the Pauli basis, $O$, through
+another such operator, $G$, creating a transformed operator, $\tilde{O}$. This evolution can be done
+in either the Heisenberg frame ($\tilde{O} = G^{\dagger}OG$) or the Schrödinger frame
+($\tilde{O} = GOG^{\dagger}$).
+- ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into Clifford and non-Clifford
+parts, $C$ and $P$ respectively, such that $U = PC$.
 
 Some features and technical details of the package include:
 
@@ -54,15 +57,8 @@ Some features and technical details of the package include:
 tolerance, a fixed number of terms in the evolving operator, or a combination of both.
 - Ability to perform Pauli propagation in both the Schrödinger and Heisenberg frames.
 - Novel technique for approximating the conjugation of a Pauli-sum operator, $O$, by another such
-operator, $G$, e.g. $GOG^{\dagger}$ or $G^{\dagger}OG$. This would normally require calculating a cubic number of Pauli
-terms, but this implementation generates only the contributions to the product with the largest
-coefficients.
-- The Rust acceleration module uses bit-packing to reduce the memory requirements and runtime of
-``evolve_by_circuit``; however, a ``qiskit.quantum_info.SparsePauliOp`` is still instantiated to
-describe the final $\tilde{O}$. If instantiating this Qiskit object is prohibitive, we could
-provide the bit-packed data to the user directly. Please let us know if something like this
-would be useful in your workflows!
-
+operator, $G$, e.g. $GOG^{\dagger}$ or $G^{\dagger}OG$. This heuristic implementation greedily
+generates contributions to the product expected to be most significant.
 
 ----------------------------------------------------------------------------------------------------
 
@@ -97,14 +93,14 @@ are generally linear in the size of the evolved operator and runtime scales line
 operator size and the number of gates.
 
 ``propagate_through_operator``: To conjugate an operator in the Pauli basis by another such operator,
-($G^{\dagger}OG$) one must generate a cubic number of terms, one term for each combination of Pauli
-terms in the product $\prod_{i,j,k} P_i^{\dagger} O_j P_k$. This implementation sorts the coefficients in
-$G^{\dagger}$, $O$, and $G$ in descending order and performs a search for the terms with the largest
-coefficients over the 3D index space, starting with the origin, $(0, 0, 0)$, which is guaranteed
-to result in the most significant contribution to the product. In our benchmarks, the runtime is
-primarily used to traverse the 3D index space to find the index triplets representing the most
-significant terms in the product; however, a non-negligible amount of time is also spent sorting
-the operators and performing Pauli multiplication to generate the terms in the new operator.
+($G^{\dagger}OG$) one must typically calculate a large number of terms -- one term for each
+combination of Pauli terms in the product $\prod_{i,j,k} P_i^{\dagger} O_j P_k$. This implementation
+sorts the coefficients in $G^{\dagger}$, $O$, and $G$ in descending order and performs a search for
+the terms with the largest coefficients over the 3D index space, starting with the origin, $(0, 0, 0)$,
+which is guaranteed to result in the most significant contribution to the product. In our benchmarks,
+the runtime is primarily used to traverse the 3D index space to find the index triplets representing
+the most significant terms in the product; however, a non-negligible amount of time is also spent
+sorting the operators and performing Pauli multiplication to generate the terms in the new operator.
 
 ``evolve_through_cliffords``: This function heavily leverages the Clifford evolution subroutines
 from Qiskit. While this is reasonably fast, it may be unnecessarily slow for users wishing to call
