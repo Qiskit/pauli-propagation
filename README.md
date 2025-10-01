@@ -32,19 +32,20 @@ Pauli propagation, also known as sparse Pauli dynamics (SPD), is a framework for
 evolution of operators in the Pauli basis under the action of other operators, such as quantum
 circuit gates and noise channels [1] - [4]. This technique has most commonly been used to classically estimate
 expectation values of quantum systems, but it has also been used for reducing the depth of quantum
-circuits to be run on a quantum processor. [OBP]
+circuits to be run on a quantum processor [5]. Check out the [tutorial](https://github.com/Qiskit/pauli-propagation/blob/main/docs/tutorials/do_something.ipynb) to learn how to use
+this package to simulate expectation values of quantum systems.
 
 This package provides a Rust-accelerated Python interface for performing the most common Pauli
 propagation routines. Namely:
 
-- ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into its Clifford and non-Clifford
-    parts, $C$ and $P$ respectively, such that $U = CP$.
 - ``propagate_through_rotation_gates``: Evolve a Pauli operator, $O$, through a sequence of Pauli rotation
     gates, $P$, creating a transformed operator, $\tilde{O}$. This evolution can be done in either
     the Heisenberg frame ($\tilde{O} = P^{\dagger}OP$) or the Schrödinger frame ($\tilde{O} = POP^{\dagger}$).
 - ``propagate_through_operator``: Evolve a Pauli operator, $O$, through another Pauli operator, $G$,
     creating a transformed operator, $\tilde{O}$. This evolution can be done in either the
     Heisenberg frame ($\tilde{O} = G^{\dagger}OG$) or the Schrödinger frame ($\tilde{O} = GOG^{\dagger}$).
+- ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into its Clifford and non-Clifford
+    parts, $C$ and $P$ respectively, such that $U = CP$.
 
 Some features and technical details of the package include:
 
@@ -147,3 +148,5 @@ By participating, you are expected to uphold Qiskit's [code of conduct](https://
 [3] Hrant Gharibyan, et al., [A Practical Guide to using Pauli Path Simulators for Utility-Scale Quantum Experiments](https://arxiv.org/abs/2507.10771), arXiv:2507.10771 [quant-ph].
 
 [4] Lukas Broers, et al., [Scalable Simulation of Quantum Many-Body Dynamics with Or-Represented Quantum Algebra](https://arxiv.org/abs/2506.13241), arXiv:2506.13241 [quant-ph].
+
+[5] Bryce Fuller, et al., [Improved Quantum Computation using Operator Backpropagation](https://arxiv.org/abs/2502.01897), arXiv:2502.01897 [quant-ph].
