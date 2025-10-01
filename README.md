@@ -45,7 +45,7 @@ propagation routines. Namely:
     creating a transformed operator, $\tilde{O}$. This evolution can be done in either the
     Heisenberg frame ($\tilde{O} = G^{\dagger}OG$) or the Schrödinger frame ($\tilde{O} = GOG^{\dagger}$).
 - ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into its Clifford and non-Clifford
-    parts, $C$ and $P$ respectively, such that $U = CP$.
+    parts, $C$ and $P$ respectively, such that $U = PC$.
 
 Some features and technical details of the package include:
 
