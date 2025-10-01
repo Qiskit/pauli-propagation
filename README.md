@@ -41,7 +41,7 @@ propagation routines. Namely:
 - ``propagate_through_rotation_gates``: Evolve a Pauli operator, $O$, through a sequence of Pauli rotation
     gates, $P$, creating a transformed operator, $\tilde{O}$. This evolution can be done in either
     the Heisenberg frame ($\tilde{O} = P^{\dagger}OP$) or the Schrödinger frame ($\tilde{O} = POP^{\dagger}$).
-- ``propagate_through_operator``: Evolve a Pauli operator, $O$, through another Pauli operator, $G$,
+- ``propagate_through_operator``: Evolve a Pauli operator, $O$, through a non-unitary Pauli-sum operator, $G$,
     creating a transformed operator, $\tilde{O}$. This evolution can be done in either the
     Heisenberg frame ($\tilde{O} = G^{\dagger}OG$) or the Schrödinger frame ($\tilde{O} = GOG^{\dagger}$).
 - ``evolve_through_cliffords``: Separate a quantum circuit, $U$, into its Clifford and non-Clifford
