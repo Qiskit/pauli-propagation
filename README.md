@@ -52,7 +52,7 @@ Some features and technical details of the package include:
 - Ability to truncate terms from $\tilde{O}$ during evolution based on an absolute coefficient
     tolerance, a fixed number of terms in the evolving operator, or a combination of both.
 - Ability to perform Pauli propagation in both the Schrödinger and Heisenberg frames.
-- Novel technique for approximating the conjugation of two non-unitary Pauli-sum operators, $G O G^{\dagger}.
+- Novel technique for approximating the conjugation of two non-unitary Pauli-sum operators, $G O G^{\dagger}$.
     This would normally require calculating a cubic number of Pauli terms, but this implementation
     generates only the terms in the product with the largest coefficients.
 - The Rust acceleration module uses bit-packing to reduce the memory requirements and runtime of
