@@ -54,7 +54,7 @@ Some features and technical details of the package include:
 tolerance, a fixed number of terms in the evolving operator, or a combination of both.
 - Ability to perform Pauli propagation in both the Schrödinger and Heisenberg frames.
 - Novel technique for approximating the conjugation of a Pauli-sum operator, $O$, by another such
-operator, $G$, $GOG^{\dagger}$. This would normally require calculating a cubic number of Pauli
+operator, $G$, e.g. $GOG^{\dagger}$ or $G^{\dagger}OG$. This would normally require calculating a cubic number of Pauli
 terms, but this implementation generates only the contributions to the product with the largest
 coefficients.
 - The Rust acceleration module uses bit-packing to reduce the memory requirements and runtime of
