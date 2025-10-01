@@ -143,7 +143,7 @@ By participating, you are expected to uphold Qiskit's [code of conduct](https://
 
 ### References
 
-[1] Tomislav Begušić, Johnnie Gray, Garnet Kin-Lic Chan, [Chemistry Beyond Exact Solutions on a Quantum-Centric Supercomputer](https://arxiv.org/abs/2308.05077), arXiv:2308.05077 [quant-ph].
+[1] Tomislav Begušić, Johnnie Gray, Garnet Kin-Lic Chan, [Fast and converged classical simulations of evidence for the utility of quantum computing before fault tolerance](https://arxiv.org/abs/2308.05077), arXiv:2308.05077 [quant-ph].
 
 [2] Manuel S. Rudolph, et al., [Pauli Propagation: A Computational Framework for Simulating Quantum Systems](https://arxiv.org/abs/2505.21606), arXiv:2505.21606 [quant-ph].
 
