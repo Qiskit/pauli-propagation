@@ -90,7 +90,7 @@ the evolved operator is allowed to grow.
 
 ``propagate_through_rotation_gates``: As the Pauli operator, $\tilde{O}$, is propagated under the
 action of a sequence of $N$ Pauli rotation gates, it will grow as $\mathcal{O}(2^{N})$. To control
-the growth of the operator, it is truncated after application of each gate, which introduces some
+the memory usage, the operator is truncated after application of each gate, which introduces some
 error proportional to the magnitudes of the truncated terms' coefficients. The runtime and memory
 requirements are generally linear in the size of the evolved operator and the number of gates.
 
@@ -106,7 +106,7 @@ the operators and performing Pauli multiplication to generate the terms in the n
 
 ``evolve_through_cliffords``: This function heavily leverages the Clifford evolution subroutines
 from Qiskit. While this is reasonably fast, it may be unnecessarily slow for users wishing to call
-it in a tight loop. There is ongoing work in Qiskit to speed up some of these routines, which may
+it in a tight loop. There is ongoing work in Qiskit to speed up some of these routines which may
 be leveraged by this package in the future. Please let us know if this function is a bottleneck in
 your workflows.
 
