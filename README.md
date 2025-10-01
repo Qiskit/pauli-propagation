@@ -33,7 +33,7 @@ evolution of operators in the Pauli basis under the action of other operators, s
 circuit gates and noise channels [1] - [4]. This technique has most commonly been used to classically estimate
 expectation values of quantum systems, but it has also been used for reducing the depth of quantum
 circuits to be run on a quantum processor [5]. Check out the [tutorial](https://github.com/Qiskit/pauli-propagation/blob/main/docs/tutorials/do_something.ipynb) to learn how to use
-this package to simulate expectation values of quantum systems.
+this package to classically simulate expectation values of quantum systems.
 
 This package provides a Rust-accelerated Python interface for performing the most common Pauli
 propagation routines. Namely:
