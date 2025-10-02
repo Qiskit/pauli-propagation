@@ -85,28 +85,18 @@ For more installation information refer to these [installation instructions](doc
 Both the memory and time cost for Pauli propagation routines generally scale with the size to which
 the evolved operator is allowed to grow.
 
-``propagate_through_rotation_gates``: As the Pauli operator, $\tilde{O}$, is propagated under the
-action of a sequence of $N$ Pauli rotation gates, the number of terms will grow as $\mathcal{O}(2^{N})$.
-To control the memory usage, the operator is truncated after application of each gate, which introduces
-some error proportional to the magnitudes of the truncated terms' coefficients. The memory requirements
-are generally linear in the size of the evolved operator and runtime scales linearly in both the
-operator size and the number of gates.
+``propagate_through_rotation_gates``: As the Pauli operator, $\tilde{O}$, is propagated in the Pauli
+basis under the action of a sequence of $N$ Pauli rotation gates of an $M$-qubit circuit, the number
+of terms will grow as $\mathcal{O}(2^{N})$ towards a maximum of $4^M$ unique Pauli components. To
+control the memory usage, the operator is truncated after application of each gate, which introduces
+some error proportional to the magnitudes of the truncated terms' coefficients. The memory
+requirements are generally linear in the size of the evolved operator and runtime scales linearly
+in both the operator size and the number of gates.
 
-``propagate_through_operator``: To conjugate an operator in the Pauli basis by another such operator,
-($G^{\dagger}OG$) one must typically calculate a large number of terms -- one term for each
-combination of Pauli terms in the product $\prod_{i,j,k} P_i^{\dagger} O_j P_k$. This implementation
-sorts the coefficients in $G^{\dagger}$, $O$, and $G$ in descending order and performs a search for
-the terms with the largest coefficients over the 3D index space, starting with the origin, $(0, 0, 0)$,
-which is guaranteed to result in the most significant contribution to the product. In our benchmarks,
-the runtime is primarily used to traverse the 3D index space to find the index triplets representing
-the most significant terms in the product; however, a non-negligible amount of time is also spent
-sorting the operators and performing Pauli multiplication to generate the terms in the new operator.
-
-``evolve_through_cliffords``: This function heavily leverages the Clifford evolution subroutines
-from Qiskit. While this is reasonably fast, it may be unnecessarily slow for users wishing to call
-it in a tight loop. There is ongoing work in Qiskit to speed up some of these routines which may
-be leveraged by this package in the future. Please let us know if this function is a bottleneck in
-your workflows.
+``propagate_through_operator``: Conjugates one operator in the Pauli basis by another,
+($G^{\dagger}OG$), by greedily accumulating terms in the sum, $\sum_{i,j,k}G^{\dagger}_iO_jG_k$,
+where $i,j,k$ are sparse indices over the Pauli basis. This implementation sorts the coefficients in
+each operator by descending magnitude then searches the 3D index space for the terms with the largest coefficients, starting with the origin, $(0, 0, 0)$, and accumulating $(i,j,k)$ triplets up to a specified cutoff. The time spent searching can often be made negligible by increasing the search step size in $(i,j,k)$ space, which provides a cubic speedup for this subroutine. In our profiling, significant time can be spent sorting the operators and performing Pauli multiplication to generate the terms in the new operator.
 
 ----------------------------------------------------------------------------------------------------
 
