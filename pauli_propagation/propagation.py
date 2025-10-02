@@ -170,10 +170,8 @@ class RotationGates(NamedTuple):
             ValueError: Unsupported gate encountered in circuit
             ValueError: If given, ``clifford`` must act on all qubits in circuit
         """
-
-        if clifford is not None:
-            if clifford.num_qubits != num_qubits:
-                raise ValueError("Clifford must act on all qubits in circuit.")
+        if (clifford is not None) and (clifford.num_qubits != num_qubits):
+            raise ValueError("Clifford must act on all qubits in circuit.")
 
         theta = inst.operation.params[0]
         if not isinstance(inst.operation, PauliEvolutionGate):
@@ -189,13 +187,13 @@ class RotationGates(NamedTuple):
             theta *= 2.0
 
         rotation_pauli = rotation_pauli.apply_layout(qargs, num_qubits=num_qubits)
-        
+
         if clifford is not None:
             rotation_pauli = rotation_pauli.evolve(clifford, frame="s")
             if rotation_pauli.phase == 2:
                 theta *= -1
                 rotation_pauli.phase = 0
-        
+
         assert rotation_pauli.phase == 0
 
         gate_arr = np.concatenate((rotation_pauli.x, rotation_pauli.z))
