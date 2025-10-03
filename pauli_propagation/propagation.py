@@ -27,7 +27,7 @@ from pauli_propagation._accelerate import (
 from pauli_propagation._accelerate import (
     k_largest_products as k_largest_products_r,
 )
-from qiskit_ibm_runtime.utils.noise_learner_result import PauliLindbladError
+from qiskit_aer.noise import PauliLindbladError
 
 # We intentionally cast the complex coeffs to real
 warnings.filterwarnings("ignore", category=np.exceptions.ComplexWarning)
@@ -70,7 +70,7 @@ def evolve_through_cliffords(circuit: QuantumCircuit) -> tuple[Clifford, Quantum
     r"""Evolve (Schrödinger frame) all non-Clifford instructions through all Clifford gates in the circuit.
 
     This shifts all recognized Clifford gates to the beginning of the circuit and updates the bases of
-    Pauli-rotation gates (e.g. ``RxGate``, ``RzzGate``, ``PauliEvolutionGate``) and `PauliLindbladError <https://quantum.cloud.ibm.com/docs/en/api/qiskit-ibm-runtime/utils-noise-learner-result-pauli-lindblad-error>`_
+    Pauli-rotation gates (e.g. ``RxGate``, ``RzzGate``, ``PauliEvolutionGate``) and `PauliLindbladError <https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.noise.PauliLindbladError.html#qiskit_aer.noise.PauliLindbladError>`_
     channels. Other operations are not supported. See `Pauli.evolve docs <https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.quantum_info.Pauli#evolve>`_ for more info about evolution
     of Paulis by Cliffords.
 
@@ -208,7 +208,7 @@ def circuit_to_rotation_gates(
     """Converts the provided circuit to an intermediate representation.
 
     Args:
-        circuit: The circuit to convert. It may contain gates that are Pauli rotations or `PauliLindbladError <https://quantum.cloud.ibm.com/docs/en/api/qiskit-ibm-runtime/utils-noise-learner-result-pauli-lindblad-error>`_ instances.
+        circuit: The circuit to convert. It may contain gates that are Pauli rotations or `PauliLindbladError <https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.noise.PauliLindbladError.html#qiskit_aer.noise.PauliLindbladError>`_ instances.
 
     Returns:
         The extracted rotation gate data.
