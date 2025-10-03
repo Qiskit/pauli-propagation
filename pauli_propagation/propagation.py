@@ -494,12 +494,14 @@ def propagate_through_operator(
         # Chop any numerical noise
         product.coeffs.imag = 0
 
+    product = product.simplify(atol=atol)
+
     if coerce_op1_traceless:
         non_id_mask = np.any(product.paulis.z | product.paulis.x, axis=1)
         if not np.all(non_id_mask):
             product = product[non_id_mask]
 
-    return product.simplify(atol=atol)
+    return product
 
 
 def _k_largest_products(
